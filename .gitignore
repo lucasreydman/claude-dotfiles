@@ -23,3 +23,14 @@ plugins/marketplaces/
 # Python cache
 **/__pycache__/
 *.pyc
+
+# Claude local runtime (DO NOT SYNC)
+plans/
+todos/
+projects/
+*.jsonl
+
+# Plugin local state
+plugins/blocklist.json
+plugins/install-counts-cache.json
+
