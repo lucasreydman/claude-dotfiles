@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "plugins": {
+    "superpowers@superpowers-marketplace": [
+      {
+        "scope": "user",
+        "installPath": "C:\\Users\\lucas\\.claude\\plugins\\cache\\superpowers-marketplace\\superpowers\\5.0.5",
+        "version": "5.0.5",
+        "installedAt": "2026-03-23T15:19:59.356Z",
+        "lastUpdated": "2026-03-23T15:19:59.356Z",
+        "gitCommitSha": "8ea39819eed74fe2a0338e71789f06b30e953041"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+# Credentials - NEVER commit
+.credentials.json
+
+# Machine-specific / ephemeral
+history.jsonl
+cache/
+backups/
+debug/
+downloads/
+file-history/
+paste-cache/
+session-env/
+sessions/
+shell-snapshots/
+tasks/
+telemetry/
+ide/
+
+# Plugin cache and marketplace repos (re-fetched automatically)
+plugins/cache/
+plugins/marketplaces/
+
+# Python cache
+**/__pycache__/
+*.pyc

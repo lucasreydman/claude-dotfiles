@@ -1,0 +1,22 @@
+{
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    }
+  },
+  "autoUpdatesChannel": "latest",
+  "allowedTools": [
+    "Bash",
+    "Read",
+    "Write",
+    "Edit",
+    "Glob",
+    "Grep"
+  ],
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
+  }
+}
