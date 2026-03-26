@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions",
     "allow": [
       "Bash(*)",
       "Edit(*)",
@@ -8,11 +7,11 @@
       "Read(*)",
       "Glob(*)",
       "Grep(*)"
-    ]
+    ],
+    "defaultMode": "bypassPermissions"
   },
-  "skipDangerousModePermissionPrompt": true,
-  "sandbox": {
-    "allowUnsandboxedCommands": true
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
   },
   "extraKnownMarketplaces": {
     "superpowers-marketplace": {
@@ -22,7 +21,12 @@
       }
     }
   },
+  "sandbox": {
+    "allowUnsandboxedCommands": true
+  },
   "autoUpdatesChannel": "latest",
+  "voiceEnabled": false,
+  "skipDangerousModePermissionPrompt": true,
   "allowedTools": [
     "Bash",
     "Read",
@@ -31,28 +35,54 @@
     "Glob",
     "Grep"
   ],
-  "enabledPlugins": {
-    "superpowers@superpowers-marketplace": true
-  },
   "mcpServers": {
     "context7": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@upstash/context7-mcp"]
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ]
     },
     "playwright": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@playwright/mcp"]
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp"
+      ]
     },
     "github": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "@modelcontextprotocol/server-github"],
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
     },
     "ruflo": {
       "command": "cmd",
-      "args": ["/c", "ruflo", "mcp", "start"]
+      "args": [
+        "/c",
+        "ruflo",
+        "mcp",
+        "start"
+      ]
+    },
+    "context-mode": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "context-mode"
+      ]
     }
   }
 }
