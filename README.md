@@ -6,13 +6,15 @@ Syncs `~/.claude` config across machines — skills, CLAUDE.md, settings, MCP se
 - `CLAUDE.md` — global Claude instructions and workflow rules
 - `settings.json` — permissions, MCP servers, plugins, update channel
 - `skills/` — custom skills (including full last30days research skill)
-- `plugins/installed_plugins.json`, `plugins/known_marketplaces.json`
+- `plugins/installed_plugins.json`
 - `projects/*/memory/` — per-project memory files
 
 ## What's NOT synced
 - `.credentials.json` (auth tokens)
 - `history.jsonl`, `cache/`, `sessions/`, `plans/`, `todos/` and other ephemeral files
-- `plugins/blocklist.json`, `plugins/install-counts-cache.json`
+- `plugins/blocklist.json`, `plugins/install-counts-cache.json`, `plugins/known_marketplaces.json`
+
+---
 
 ## Setup on a new machine
 
@@ -31,64 +33,98 @@ git reset --hard origin/main
 ```
 
 ### 2. Install dependencies
-The `last30days` skill requires Python 3 and yt-dlp:
+
+**yt-dlp** (required for YouTube in last30days):
 ```bash
-pip install yt-dlp
+winget install yt-dlp.yt-dlp
 ```
 
-Ruflo (agent orchestration) requires Node.js 20+:
+**Ruflo** (multi-agent orchestration, requires Node.js 20+):
 ```bash
 npm install -g ruflo@latest --omit=optional
 ```
 
-### 3. Configure API keys for last30days skill
-Create `~/.config/last30days/.env`:
+### 3. Create `~/.bashrc` with API keys
+
+```bash
+export PYTHONUTF8=1
+export PATH="$PATH:/c/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links"
+
+# API Keys & Tokens
+export GITHUB_PERSONAL_ACCESS_TOKEN=""   # github.com → Settings → Developer settings → PAT (scopes: repo, read:org, read:user)
+export BRAVE_API_KEY=""                  # api.search.brave.com — free tier (1000 queries/mo)
+export XAI_API_KEY=""                    # console.x.ai — X/Twitter search (~$0.01-0.05 per research run)
+```
+
+> Replace `YOUR_USERNAME` with your Windows username.
+
+### 4. Create `~/.config/last30days/.env` with skill API keys
+
 ```bash
 mkdir -p ~/.config/last30days
-touch ~/.config/last30days/.env
 ```
 
-Add your keys:
 ```
-XAI_API_KEY=...              # console.x.ai — X/Twitter search
-BSKY_HANDLE=...              # your handle e.g. you.bsky.social
-BSKY_APP_PASSWORD=...        # bsky.app → Settings → App Passwords
-BRAVE_API_KEY=...            # api.search.brave.com — enhanced web search (optional)
+BRAVE_API_KEY=""
+XAI_API_KEY=""
 ```
 
-### 4. Set GitHub token for GitHub MCP
-Add to your shell profile or the `.env` file above:
-```
-GITHUB_PERSONAL_ACCESS_TOKEN=...  # github.com → Settings → Developer settings → PAT
+### 5. Activate keys in current session
+```bash
+source ~/.bashrc
 ```
 
-### 5. Verify MCP servers
-MCP servers are pre-configured in `settings.json` with the Windows `cmd /c` wrapper.
+### 6. Verify MCP servers
 Run `/doctor` in Claude Code to confirm they're connected.
 
+---
+
+## last30days skill — working sources
+
+The skill is configured to only hit sources that are confirmed working:
+
+| Source | Requires | Notes |
+|--------|----------|-------|
+| X/Twitter | `XAI_API_KEY` + credits at console.x.ai | ~$0.01-0.05/run |
+| YouTube | `yt-dlp` installed | Free, no key |
+| Hacker News | Nothing | Free, always works |
+| Polymarket | Nothing | Free, always works |
+| Brave web search | `BRAVE_API_KEY` | Free tier: 1000 queries/mo |
+| Claude WebSearch | Nothing | Built-in, runs after script |
+
+Reddit, TikTok, Instagram, Bluesky, Truth Social are disabled — they require ScrapeCreators or additional auth that isn't set up.
+
+---
+
 ## MCP Servers (auto-configured)
+
 Defined in `settings.json`, available in every project:
 - **context7** — injects up-to-date library docs into your session
 - **playwright** — browser automation and UI testing via natural language
 - **github** — read repos, open issues, create PRs (requires `GITHUB_PERSONAL_ACCESS_TOKEN`)
-- **ruflo** — multi-agent orchestration: spawn Claude swarms, coordinate parallel tasks, RAG memory (requires `npm install -g ruflo@latest --omit=optional`)
+- **ruflo** — multi-agent orchestration: spawn Claude swarms, coordinate parallel tasks (requires `npm install -g ruflo@latest --omit=optional`)
+
+---
 
 ## Skills
 - **superpowers** — full workflow framework: TDD, git worktrees, planning, debugging, code review
 - **last30days** — multi-platform research engine (YouTube, HN, Polymarket, Brave web search; X/Twitter with XAI_API_KEY)
 - 40+ other skills — see `skills/` directory
 
-## Day-to-day
+---
+
+## Day-to-day sync
 
 ```bash
 # After changing skills/config:
-git add -p && git commit -m "update skills" && git push
+git add -p && git commit -m "update" && git push
 
 # On other machine:
-git pull --rebase
+git pull
+source ~/.bashrc
 ```
 
 ## Notes
 - Per-project memory paths encode the full project path (e.g., `C--Users-lucas-dev`). Both machines should use the same username and project root for memory to auto-resolve.
-- The `.env` file with API keys is intentionally NOT committed — add it manually on each machine.
-- The GitHub PAT is stored in `~/.claude.json` (user-scoped MCP config) and referenced via env var in `settings.json`.
+- `~/.bashrc` and `~/.config/last30days/.env` are intentionally NOT committed — add API keys manually on each machine.
+- `plugins/known_marketplaces.json` is gitignored — it's auto-generated with machine-specific paths and regenerates automatically.
