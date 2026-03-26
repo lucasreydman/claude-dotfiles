@@ -48,4 +48,5 @@ projects/
 # Plugin local state
 plugins/blocklist.json
 plugins/install-counts-cache.json
+plugins/known_marketplaces.json
 

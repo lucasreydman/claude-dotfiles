@@ -1,6 +1,18 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions"
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Bash(*)",
+      "Edit(*)",
+      "Write(*)",
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)"
+    ]
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "sandbox": {
+    "allowUnsandboxedCommands": true
   },
   "extraKnownMarketplaces": {
     "superpowers-marketplace": {
