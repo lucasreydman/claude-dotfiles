@@ -50,7 +50,6 @@ touch ~/.config/last30days/.env
 
 Add your keys:
 ```
-SCRAPECREATORS_API_KEY=...   # scrapecreators.com — Reddit, TikTok, Instagram
 XAI_API_KEY=...              # console.x.ai — X/Twitter search
 BSKY_HANDLE=...              # your handle e.g. you.bsky.social
 BSKY_APP_PASSWORD=...        # bsky.app → Settings → App Passwords
@@ -76,7 +75,7 @@ Defined in `settings.json`, available in every project:
 
 ## Skills
 - **superpowers** — full workflow framework: TDD, git worktrees, planning, debugging, code review
-- **last30days** — multi-platform research engine (Reddit, X, YouTube, TikTok, HN, Bluesky, web)
+- **last30days** — multi-platform research engine (YouTube, HN, Polymarket, Brave web search; X/Twitter with XAI_API_KEY)
 - 40+ other skills — see `skills/` directory
 
 ## Day-to-day
