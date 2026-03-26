@@ -30,10 +30,15 @@ If `main` already exists locally:
 git reset --hard origin/main
 ```
 
-### 2. Install Python dependencies
+### 2. Install dependencies
 The `last30days` skill requires Python 3 and yt-dlp:
 ```bash
 pip install yt-dlp
+```
+
+Ruflo (agent orchestration) requires Node.js 20+:
+```bash
+npm install -g ruflo@latest --omit=optional
 ```
 
 ### 3. Configure API keys for last30days skill
@@ -67,6 +72,7 @@ Defined in `settings.json`, available in every project:
 - **context7** — injects up-to-date library docs into your session
 - **playwright** — browser automation and UI testing via natural language
 - **github** — read repos, open issues, create PRs (requires `GITHUB_PERSONAL_ACCESS_TOKEN`)
+- **ruflo** — multi-agent orchestration: spawn Claude swarms, coordinate parallel tasks, RAG memory (requires `npm install -g ruflo@latest --omit=optional`)
 
 ## Skills
 - **superpowers** — full workflow framework: TDD, git worktrees, planning, debugging, code review
