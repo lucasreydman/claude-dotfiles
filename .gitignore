@@ -19,6 +19,21 @@ ide/
 # Plugin cache and marketplace repos (re-fetched automatically)
 plugins/cache/
 plugins/marketplaces/
+plugins/blocklist.json
+plugins/blocklist.json*.tmp
+
+# Plans (ephemeral)
+plans/
+
+# Project session data - keep only memory/
+projects/**
+!projects/
+!projects/*/
+!projects/*/memory/
+!projects/*/memory/**
+
+# Temp files
+*.tmp
 
 # Python cache
 **/__pycache__/
