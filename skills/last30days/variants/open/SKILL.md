@@ -67,7 +67,7 @@ At session start, read `${SKILL_ROOT}/variants/open/context.md` for user prefere
 
 Bird CLI provides free X search if installed. YouTube search uses yt-dlp (free).
 
-Run `python3 "${SKILL_ROOT}/scripts/last30days.py" --diagnose` to check source availability.
+Run `PYTHON=$(command -v py 2>/dev/null || command -v python3 2>/dev/null || command -v python 2>/dev/null) && "$PYTHON" "${SKILL_ROOT}/scripts/last30days.py" --diagnose` to check source availability.
 
 ## Routing Logic
 

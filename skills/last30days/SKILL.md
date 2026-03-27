@@ -185,13 +185,15 @@ When the user asks "X vs Y", run THREE research passes in parallel:
 **Pass 1 + 2 (parallel Bash calls):**
 ```bash
 # Run BOTH of these as parallel Bash tool calls in a single message:
-python3 "${SKILL_ROOT}/scripts/last30days.py" {TOPIC_A} --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days
-python3 "${SKILL_ROOT}/scripts/last30days.py" {TOPIC_B} --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days
+PYTHON=$(command -v py 2>/dev/null || command -v python3 2>/dev/null || command -v python 2>/dev/null)
+"$PYTHON" "${SKILL_ROOT}/scripts/last30days.py" {TOPIC_A} --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days
+"$PYTHON" "${SKILL_ROOT}/scripts/last30days.py" {TOPIC_B} --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days
 ```
 
 **Pass 3 (after passes 1+2 complete):**
 ```bash
-python3 "${SKILL_ROOT}/scripts/last30days.py" "{TOPIC_A} vs {TOPIC_B}" --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days
+PYTHON=$(command -v py 2>/dev/null || command -v python3 2>/dev/null || command -v python 2>/dev/null)
+"$PYTHON" "${SKILL_ROOT}/scripts/last30days.py" "{TOPIC_A} vs {TOPIC_B}" --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days
 ```
 
 Then do WebSearch for: `{TOPIC_A} vs {TOPIC_B} comparison 2026` and `{TOPIC_A} vs {TOPIC_B} which is better`.
@@ -228,7 +230,14 @@ if [ -z "${SKILL_ROOT:-}" ]; then
   exit 1
 fi
 
-python3 "${SKILL_ROOT}/scripts/last30days.py" $ARGUMENTS --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days  # Add --x-handle=HANDLE if RESOLVED_HANDLE is set
+# Detect Python executable (py = Windows, python3 = Unix/Mac, python = fallback)
+PYTHON=$(command -v py 2>/dev/null || command -v python3 2>/dev/null || command -v python 2>/dev/null)
+if [ -z "${PYTHON:-}" ]; then
+  echo "ERROR: Python not found. Install Python from python.org" >&2
+  exit 1
+fi
+
+"$PYTHON" "${SKILL_ROOT}/scripts/last30days.py" $ARGUMENTS --emit=compact --no-native-web --search x,youtube,hn,polymarket --save-dir=~/Documents/Last30Days  # Add --x-handle=HANDLE if RESOLVED_HANDLE is set
 ```
 
 Use a **timeout of 300000** (5 minutes) on the Bash call. The script typically takes 1-3 minutes.
