@@ -3,7 +3,7 @@
 
 # Machine-specific / ephemeral
 history.jsonl
-cache/
+/cache/
 backups/
 debug/
 downloads/
@@ -17,8 +17,10 @@ telemetry/
 ide/
 
 # Plugin cache and marketplace repos (re-fetched automatically)
-plugins/cache/
+plugins/cache/superpowers-marketplace/
+plugins/cache/claude-plugins-official/
 plugins/marketplaces/
+# Note: plugins/cache/direct/ is intentionally tracked (manually pinned plugins via submodules)
 plugins/blocklist.json
 plugins/blocklist.json*.tmp
 
