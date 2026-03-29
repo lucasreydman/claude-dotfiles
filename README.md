@@ -2,6 +2,8 @@
 
 Syncs `~/.claude` config across machines — skills, CLAUDE.md, settings, MCP servers, plugins, and per-project memory.
 
+> **`~/.claude` IS the repo.** Never clone this to `~/dev/` or any other directory. All git operations (`pull`, `push`, `commit`) happen directly inside `~/.claude`. That folder is both the live Claude config and the git working copy.
+
 ## What's synced
 - `CLAUDE.md` — global Claude instructions and workflow rules
 - `settings.json` — permissions, MCP servers, plugins, update channel
