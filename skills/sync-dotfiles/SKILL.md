@@ -55,7 +55,7 @@ yt-dlp --version 2>/dev/null || echo "MISSING: yt-dlp"
 
 ```bash
 # API keys in ~/.bashrc
-grep -E "GITHUB_PERSONAL_ACCESS_TOKEN|BRAVE_API_KEY|XAI_API_KEY|BSKY_HANDLE|BSKY_APP_PASSWORD" ~/.bashrc 2>/dev/null
+grep -E "GITHUB_PERSONAL_ACCESS_TOKEN|BRAVE_API_KEY|XAI_API_KEY" ~/.bashrc 2>/dev/null
 ```
 
 ```bash
@@ -85,7 +85,6 @@ Produce a summary with two sections:
 | `GITHUB_PERSONAL_ACCESS_TOKEN` | `~/.bashrc` | `grep GITHUB_PERSONAL ~/.bashrc` |
 | `BRAVE_API_KEY` | `~/.bashrc` | `grep BRAVE_API ~/.bashrc` |
 | `XAI_API_KEY` | `~/.bashrc` + `~/.config/last30days/.env` | optional but enables X/Twitter |
-| `BSKY_HANDLE` + `BSKY_APP_PASSWORD` | `~/.bashrc` | optional, enables Bluesky |
 | `ruflo` binary | PATH | `ruflo --version` |
 | `yt-dlp` binary | PATH | `yt-dlp --version` |
 | Restart Claude Code | — | Required after `settings.json` changes |
