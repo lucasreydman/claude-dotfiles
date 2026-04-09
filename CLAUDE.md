@@ -36,6 +36,14 @@
 - Zero context switching required from the user
 - Go fix failing CI tests without being told how
 
+### 7. Pre-built Agent Roles
+When dispatching subagents (via superpowers' subagent-driven-development or dispatching-parallel-agents skills), use these pre-built agent definitions from the `agents/` directory:
+- **agents/code-reader.md** — read-only exploration: finding files, reading source, searching patterns. Use before implementation to understand existing code.
+- **agents/verifier.md** — validation: runs tests, builds, linting. Use after implementation to confirm correctness.
+- **agents/searcher.md** — research: web searches, documentation lookup. Use when gathering external context or library docs.
+
+Dispatch these by passing their file path and role to the Agent tool. These are role definitions, not skills — do not invoke them via the Skill tool.
+
 ## Task Management
 
 1. **Plan First**: Write plan to tasks/todo.md with checkable items
