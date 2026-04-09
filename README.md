@@ -3,7 +3,13 @@
 
 > *Lucas's personal AI director — the configuration layer that turns Claude Code into a persistent, opinionated, always-improving co-pilot.*
 
-Just as Tony Stark built J.A.R.V.I.S. to be more than a tool — an intelligence that knew his systems, anticipated his needs, and grew smarter over session — L.L.O.Y.D. is the brain behind the Claude Code experience. It's not just dotfiles. It's memory, judgment, workflows, and a skills library that make every session faster and sharper than the last.
+The name has two references, and both are intentional.
+
+**The obvious one:** J.A.R.V.I.S. — Tony Stark's AI in Iron Man. Not just a tool, but an intelligence that knew his systems, anticipated his needs, and made him sharper. L.L.O.Y.D. is that layer for Claude Code.
+
+**The better one:** Lloyd Lee — Ari Gold's assistant in HBO's *Entourage*, played by Rex Lee. Stanford MBA. Overqualified by design. Absorbs chaos without breaking composure. The one person Ari genuinely cannot operate without. He pushes back when it matters, stays when others would quit, and by the end runs the TV division of a top Hollywood agency. He didn't get there through charm — he got there through patience, intelligence, and strategic endurance.
+
+That's the model. Not a yes-machine. An operator who handles everything, gets better over time, and earns the trust session by session.
 
 **L** — *Logical* — structured workflows: TDD, plan-first, subagent-driven execution, verification gates  
 **L** — *Learning* — persistent memory across sessions, lessons captured after every correction  
