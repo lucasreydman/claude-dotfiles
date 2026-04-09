@@ -58,3 +58,67 @@ Dispatch these by passing their file path and role to the Agent tool. These are 
 - **Simplicity First**: Make every change as simple as possible. Impact minimal code.
 - **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
 - **Minimal Impact**: Only touch what's necessary. No side effects with new bugs.
+
+## Skills Quick Reference
+
+Before answering any question in these domains, invoke the relevant skill via the `Skill` tool. Generic answers are worse than skill-guided ones.
+
+### Marketing & Growth
+| Use when... | Skill |
+|---|---|
+| Writing landing page / homepage copy | `copywriting` |
+| Improving existing copy | `copy-editing` |
+| Planning content (blog, SEO topics) | `content-strategy` |
+| SEO audit or technical SEO issues | `seo-audit` |
+| Structured data / rich results | `schema-markup` |
+| AI search optimization (ChatGPT, Perplexity) | `ai-seo` |
+| Programmatic content at scale | `programmatic-seo` |
+| Site structure / URL architecture | `site-architecture` |
+| Paid ads (Google, Meta, LinkedIn) | `paid-ads` |
+| A/B testing with statistical rigor | `ab-test-setup` |
+| Signup or onboarding flow optimization | `signup-flow-cro` or `onboarding-cro` |
+| Pricing / packaging decisions | `pricing-strategy` |
+| Cold outbound email sequences | `cold-email` |
+| Social media content | `social-content` |
+| Product launch planning | `launch-strategy` |
+| SaaS churn analysis / retention | `churn-prevention` |
+| Referral or affiliate programs | `referral-program` |
+| Competitor comparison pages | `competitor-alternatives` |
+| Analytics / event tracking setup | `analytics-tracking` |
+| Revenue ops / lead lifecycle | `revops` |
+| Sales collateral / battle cards | `sales-enablement` |
+| Behavioral psychology applied to UX | `marketing-psychology` |
+| Brainstorming marketing tactics | `marketing-ideas` |
+
+### Design & Frontend
+| Use when... | Skill |
+|---|---|
+| Building production web UI | `frontend-design` |
+| UI/UX decisions, color, typography | `ui-ux-pro-max` |
+| Reviewing UI for accessibility/best practices | `web-design-guidelines` |
+| Creating multi-component HTML artifacts | `web-artifacts-builder` |
+| Generative / algorithmic art | `algorithmic-art` |
+| Static poster / visual art | `canvas-design` |
+| Applying a visual theme to an artifact | `theme-factory` |
+| Video creation in React | `remotion-best-practices` |
+
+### Documents
+| Use when... | Skill |
+|---|---|
+| Creating or editing Word documents | `docx` |
+| PDF manipulation (merge, split, extract) | `pdf` |
+| Creating PowerPoint presentations | `pptx` |
+| Spreadsheet creation or analysis | `xlsx` |
+
+### Infrastructure & Dev Tools
+| Use when... | Skill |
+|---|---|
+| Building an MCP server | `mcp-builder` |
+| Automating external apps (Gmail, Slack, Notion…) | `composio` |
+| Testing a local web app with Playwright | `webapp-testing` |
+| Running code in a secure cloud sandbox | `agent-sandboxes` |
+| Writing internal docs, status updates, newsletters | `internal-comms` |
+| Co-authoring a spec or proposal | `doc-coauthoring` |
+| Creating a new skill | `skill-creator` |
+| Syncing dotfiles to a new machine | `sync-dotfiles` |
+| Researching recent AI/tech news | `last30days` |
