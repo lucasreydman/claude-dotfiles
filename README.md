@@ -7,7 +7,7 @@ The name has two references, and both are intentional.
 
 **The obvious one:** J.A.R.V.I.S. — Tony Stark's AI in Iron Man. Not just a tool, but an intelligence that knew his systems, anticipated his needs, and made him sharper. L.L.O.Y.D. is that layer for Claude Code.
 
-**The better one:** Lloyd Lee — Ari Gold's assistant in HBO's *Entourage*, played by Rex Lee. Stanford MBA. Overqualified by design. Absorbs chaos without breaking composure. The one person Ari genuinely cannot operate without. He pushes back when it matters, stays when others would quit, and by the end runs the TV division of a top Hollywood agency. He didn't get there through charm — he got there through patience, intelligence, and strategic endurance.
+**The better one:** Lloyd Lee — Ari Gold's assistant in HBO's *Entourage*. Stanford MBA. Overqualified by design. Absorbs chaos without breaking composure. The one person Ari genuinely cannot operate without. He pushes back when it matters, stays when others would quit, and by the end runs the TV division of a top Hollywood agency. He didn't get there through charm — he got there through patience, intelligence, and strategic endurance.
 
 That's the model. Not a yes-machine. An operator who handles everything, gets better over time, and earns the trust session by session.
 
@@ -72,8 +72,8 @@ export PATH="$PATH:/c/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links"
 
 # API Keys & Tokens
 export GITHUB_PERSONAL_ACCESS_TOKEN=""   # github.com → Settings → Developer settings → PAT (scopes: repo, read:org, read:user)
-export BRAVE_API_KEY=""                  # api.search.brave.com — free tier (1000 queries/mo)
-export XAI_API_KEY=""                    # console.x.ai — X/Twitter search (~$0.01-0.05 per research run)
+export BRAVE_API_KEY=""                  # api.search.brave.com — Brave Search free tier (1000 queries/mo)
+export XAI_API_KEY=""                    # console.x.ai — X search (~$0.01-0.05 per research run, $5 in free credits/mo)
 ```
 
 > Replace `YOUR_USERNAME` with your Windows username.
@@ -111,8 +111,6 @@ The skill is configured to only hit sources that are confirmed working:
 | Polymarket | Nothing | Free, always works |
 | Brave web search | `BRAVE_API_KEY` | Free tier: 1000 queries/mo |
 | Claude WebSearch | Nothing | Built-in, runs after script |
-
-Reddit, TikTok, Instagram, Bluesky, Truth Social are disabled — they require ScrapeCreators or additional auth that isn't set up.
 
 ---
 
