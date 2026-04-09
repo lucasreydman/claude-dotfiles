@@ -47,12 +47,6 @@ winget install yt-dlp.yt-dlp
 npm install -g ruflo@latest --omit=optional
 ```
 
-**Composio** (external app automation — Gmail, Slack, Notion, etc.):
-```bash
-npm install -g composio-core
-composio login
-```
-
 ### 3. Create `~/.bashrc` with API keys
 
 ```bash

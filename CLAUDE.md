@@ -114,7 +114,6 @@ Before answering any question in these domains, invoke the relevant skill via th
 | Use when... | Skill |
 |---|---|
 | Building an MCP server | `mcp-builder` |
-| Automating external apps (Gmail, Slack, Notion…) | `composio` |
 | Testing a local web app with Playwright | `webapp-testing` |
 | Running code in a secure cloud sandbox | `agent-sandboxes` |
 | Writing internal docs, status updates, newsletters | `internal-comms` |
