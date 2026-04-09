@@ -5,9 +5,10 @@ Syncs `~/.claude` config across machines — skills, CLAUDE.md, settings, MCP se
 > **`~/.claude` IS the repo.** Never clone this to `~/dev/` or any other directory. All git operations (`pull`, `push`, `commit`) happen directly inside `~/.claude`. That folder is both the live Claude config and the git working copy.
 
 ## What's synced
-- `CLAUDE.md` — global Claude instructions and workflow rules
+- `CLAUDE.md` — global Claude instructions, workflow rules, and skills quick-reference
 - `settings.json` — permissions, MCP servers, plugins, update channel
-- `skills/` — custom skills (including full last30days research skill)
+- `skills/` — 60+ skills: superpowers framework, last30days, marketing/growth, design, dev tools
+- `agents/` — pre-built agent role definitions (code-reader, verifier, searcher)
 - `plugins/installed_plugins.json`
 - `projects/*/memory/` — per-project memory files
 
@@ -44,6 +45,12 @@ winget install yt-dlp.yt-dlp
 **Ruflo** (multi-agent orchestration, requires Node.js 20+):
 ```bash
 npm install -g ruflo@latest --omit=optional
+```
+
+**Composio** (external app automation — Gmail, Slack, Notion, etc.):
+```bash
+npm install -g composio-core
+composio login
 ```
 
 ### 3. Create `~/.bashrc` with API keys
@@ -111,7 +118,13 @@ Defined in `settings.json`, available in every project:
 ## Skills
 - **superpowers** — full workflow framework: TDD, git worktrees, planning, debugging, code review
 - **last30days** — multi-platform research engine (YouTube, HN, Polymarket, Brave web search; X/Twitter with XAI_API_KEY)
-- 40+ other skills — see `skills/` directory
+- **60+ skills** across marketing/growth, design, documents, and dev tools — see `skills/` directory or the Skills Quick Reference in `CLAUDE.md`
+
+## Agents
+Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
+- **code-reader** — read-only codebase exploration
+- **verifier** — runs tests, builds, linting after implementation
+- **searcher** — web research and documentation lookup
 
 ---
 
