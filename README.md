@@ -1,7 +1,7 @@
 # L.L.O.Y.D.
 ### Logical Learning & Optimization Yield Director
 
-> *Lucas's personal AI director — the configuration layer that turns Claude Code into a persistent, opinionated, always-improving co-pilot.*
+> *My personal AI director — the configuration layer that turns Claude Code into a persistent, opinionated, always-improving co-pilot.*
 
 The name has two references, and both are intentional.
 
