@@ -1,11 +1,22 @@
-# claude-dotfiles
+# L.L.O.Y.D.
+### Logical Learning & Optimization Yield Director
 
-Syncs `~/.claude` config across machines — skills, CLAUDE.md, settings, MCP servers, plugins, and per-project memory.
+> *Lucas's personal AI director — the configuration layer that turns Claude Code into a persistent, opinionated, always-improving co-pilot.*
+
+Just as Tony Stark built J.A.R.V.I.S. to be more than a tool — an intelligence that knew his systems, anticipated his needs, and grew smarter over session — L.L.O.Y.D. is the brain behind the Claude Code experience. It's not just dotfiles. It's memory, judgment, workflows, and a skills library that make every session faster and sharper than the last.
+
+**L** — *Logical* — structured workflows: TDD, plan-first, subagent-driven execution, verification gates  
+**L** — *Learning* — persistent memory across sessions, lessons captured after every correction  
+**O** — *Optimization* — 60+ skills that replace generic answers with expert-guided ones  
+**Y** — *Yield* — every session produces better output than the last, compounding over time  
+**D** — *Director* — orchestrates agents, MCP servers, tools, and context to get things done  
+
+---
 
 > **`~/.claude` IS the repo.** Never clone this to `~/dev/` or any other directory. All git operations (`pull`, `push`, `commit`) happen directly inside `~/.claude`. That folder is both the live Claude config and the git working copy.
 
 ## What's synced
-- `CLAUDE.md` — global Claude instructions, workflow rules, and skills quick-reference
+- `CLAUDE.md` — global instructions, workflow rules, and skills quick-reference
 - `settings.json` — permissions, MCP servers, plugins, update channel
 - `skills/` — 60+ skills: superpowers framework, last30days, marketing/growth, design, dev tools
 - `agents/` — pre-built agent role definitions (code-reader, verifier, searcher)
@@ -25,7 +36,7 @@ Syncs `~/.claude` config across machines — skills, CLAUDE.md, settings, MCP se
 ```bash
 cd ~/.claude
 git init
-git remote add origin https://github.com/lucasreydman/claude-dotfiles.git
+git remote add origin https://github.com/lucasreydman/lloyd.git
 git fetch origin
 git checkout -b main --track origin/main
 ```

@@ -1,13 +1,13 @@
 ---
 name: sync-dotfiles
-description: Syncs ~/.claude with the lucasreydman/claude-dotfiles GitHub repo - pulls latest commits, updates submodules, and reports required user actions (missing API keys, dependencies, restarts).
+description: Syncs ~/.claude with the lucasreydman/lloyd GitHub repo (L.L.O.Y.D.) - pulls latest commits, updates submodules, and reports required user actions (missing API keys, dependencies, restarts).
 user-invocable: true
 allowed-tools: Bash, Read, Write
 ---
 
 # sync-dotfiles
 
-Pulls the latest dotfiles from `lucasreydman/claude-dotfiles` into `~/.claude`, initializes submodules, and produces a clear action report.
+Pulls the latest L.L.O.Y.D. config from `lucasreydman/lloyd` into `~/.claude`, initializes submodules, and produces a clear action report.
 
 ## Steps
 
