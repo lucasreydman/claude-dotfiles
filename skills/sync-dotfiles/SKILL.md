@@ -51,7 +51,12 @@ ruflo --version 2>/dev/null || echo "MISSING: ruflo"
 
 # yt-dlp
 yt-dlp --version 2>/dev/null || echo "MISSING: yt-dlp"
+
+# composio
+composio whoami 2>/dev/null || echo "MISSING or not authenticated: composio"
 ```
+
+> **MCP servers (ruflo, playwright, github, context7):** Use `/doctor` in Claude Code to confirm they are actually connected — not just installed. Installation alone does not guarantee the MCP server is running and reachable.
 
 ```bash
 # API keys in ~/.bashrc
@@ -87,6 +92,7 @@ Produce a summary with two sections:
 | `XAI_API_KEY` | `~/.bashrc` + `~/.config/last30days/.env` | optional but enables X/Twitter |
 | `ruflo` binary | PATH | `ruflo --version` |
 | `yt-dlp` binary | PATH | `yt-dlp --version` |
+| `composio` CLI | PATH + auth | `composio whoami` |
 | Restart Claude Code | — | Required after `settings.json` changes |
 
 ## Notes
