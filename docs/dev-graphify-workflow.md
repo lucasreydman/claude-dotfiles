@@ -69,6 +69,54 @@ PYTHONUTF8=1 python -m graphify . --update --no-viz
 6. **Use `--budget 1500`** — caps query output at ~1500 tokens.
 7. **Use the master graph for cross-project questions** — don't open multiple per-project graphs.
 
+## Obsidian Visualization
+
+All graphs are exported as Obsidian note sets into:
+```
+C:\Users\lucas\Documents\Obsidian\SecondBrain\graphify-vault\
+  INDEX.md              ← start here
+  _master\              ← 863-node cross-project graph
+  bvp-betting\
+  csci3172\
+  ... (one folder per project)
+```
+
+Open `graphify-vault/` as a vault in Obsidian (or keep it inside SecondBrain). Use:
+- **Graph view** — filter by folder to see one project's cluster
+- **Canvas** — open any `graph.canvas` for the structured community layout
+- **Search** — every node is a searchable `.md` note
+
+### Rebuild Obsidian export after updating a graph
+
+```bash
+python - << 'EOF'
+import json
+from collections import defaultdict
+from networkx.readwrite import json_graph
+from graphify.export import to_obsidian, to_canvas
+from pathlib import Path
+
+def export(graph_path, out_dir):
+    data = json.loads(Path(graph_path).read_text(encoding='utf-8'))
+    G = json_graph.node_link_graph(data, edges='links')
+    communities = defaultdict(list)
+    for nid, attrs in G.nodes(data=True):
+        communities[int(attrs.get('community', 0))].append(nid)
+    communities = dict(communities)
+    n = to_obsidian(G, communities, str(out_dir))
+    to_canvas(G, communities, str(Path(out_dir) / 'graph.canvas'))
+    print(f'{out_dir}: {n} notes')
+
+VAULT = r"C:\Users\lucas\Documents\Obsidian\SecondBrain\graphify-vault"
+
+# Re-export one project
+export(r"C:\Users\lucas\dev\yrfi\graphify-out\graph.json", rf"{VAULT}\yrfi")
+
+# Re-export master
+export(r"C:\Users\lucas\dev\knowledge\graphify-out\graph.json", rf"{VAULT}\_master")
+EOF
+```
+
 ## Adding a New Project
 
 ```bash
