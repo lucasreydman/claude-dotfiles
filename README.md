@@ -1,7 +1,7 @@
 # L.L.O.Y.D.
 ### Logical Learning & Optimization Yield Director
 
-> *The configuration layer that turns my Claude Code into a persistent, opinionated, always-improving co-pilot.*
+> *The configuration layer that turns Claude Code into a persistent, opinionated, always-improving co-pilot.*
 
 The name has two references, and both are intentional.
 
@@ -38,11 +38,32 @@ That's the model. Not a yes-machine. An operator who handles everything, gets be
 
 ## Setup on a new machine
 
-### 1. Clone the repo
+> **Customize these values before you start:**
+> - `YOUR_USERNAME` — your OS username (e.g. `lucas` on Windows, `lucasreydman` on Mac)
+> - `YOUR_GITHUB_USERNAME` — your GitHub handle (e.g. `lucasreydman`)
+> - `YOUR_DEV_FOLDER` — where your code projects live (e.g. `C:\Users\YOUR_USERNAME\dev` on Windows, `~/dev` on Mac/Linux)
+> - `YOUR_OBSIDIAN_VAULT` — path to your Obsidian vault (e.g. `C:\Users\YOUR_USERNAME\Documents\Obsidian\MyVault`)
+
+### 0. Fork this repo first
+
+Go to [github.com/lucasreydman/lloyd](https://github.com/lucasreydman/lloyd) and click **Fork**. This gives you your own copy to customize and sync across machines.
+
+### 1. Clone your fork into `~/.claude`
+
+**Windows (Git Bash / WSL):**
 ```bash
 cd ~/.claude
 git init
-git remote add origin https://github.com/lucasreydman/lloyd.git
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/lloyd.git
+git fetch origin
+git checkout -b main --track origin/main
+```
+
+**Mac / Linux:**
+```bash
+cd ~/.claude
+git init
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/lloyd.git
 git fetch origin
 git checkout -b main --track origin/main
 ```
@@ -55,8 +76,18 @@ git reset --hard origin/main
 ### 2. Install dependencies
 
 **yt-dlp** (required for YouTube in last30days):
+
+*Windows:*
 ```bash
 winget install yt-dlp.yt-dlp
+```
+*Mac:*
+```bash
+brew install yt-dlp
+```
+*Linux:*
+```bash
+pip install yt-dlp
 ```
 
 **Ruflo** (multi-agent orchestration, requires Node.js 20+):
@@ -66,6 +97,7 @@ npm install -g ruflo@latest --omit=optional
 
 ### 3. Create `~/.bashrc` with API keys
 
+**Windows (`~/.bashrc`):**
 ```bash
 export PYTHONUTF8=1
 export PATH="$PATH:/c/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links"
@@ -76,7 +108,15 @@ export BRAVE_API_KEY=""                  # api.search.brave.com — Brave Search
 export XAI_API_KEY=""                    # console.x.ai — X search (~$0.01-0.05 per research run, $5 in free credits/mo)
 ```
 
-> Replace `YOUR_USERNAME` with your Windows username.
+**Mac / Linux (`~/.zshrc` or `~/.bashrc`):**
+```bash
+# API Keys & Tokens
+export GITHUB_PERSONAL_ACCESS_TOKEN=""
+export BRAVE_API_KEY=""
+export XAI_API_KEY=""
+```
+
+> Replace `YOUR_USERNAME` with your OS username.
 
 ### 4. Create `~/.config/last30days/.env` with skill API keys
 
@@ -91,7 +131,7 @@ XAI_API_KEY=""
 
 ### 5. Activate keys in current session
 ```bash
-source ~/.bashrc
+source ~/.bashrc   # or source ~/.zshrc on Mac
 ```
 
 ### 6. Verify MCP servers
@@ -139,23 +179,23 @@ Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
 
 ## Graphify — Knowledge Graph + Obsidian Visualization
 
-Graphify turns every project and the Obsidian vault into a persistent knowledge graph. Claude reads `GRAPH_REPORT.md` and runs focused `graphify query` calls before raw file searches — dramatically reducing token usage per session. The graphs are also exported as wikilinked Obsidian notes, visible as a node cluster in Obsidian's Graph View and Canvas.
+Graphify turns your projects and Obsidian vault into a persistent knowledge graph. Claude reads `GRAPH_REPORT.md` and runs focused `graphify query` calls before raw file searches — dramatically reducing token usage per session. The graphs are also exported as wikilinked Obsidian notes, visible as a node cluster in Obsidian's Graph View and Canvas.
 
 ### What it does
 
-- **Per-project graphs** — every folder in `C:\Users\lucas\dev` has its own `graphify-out\GRAPH_REPORT.md` and `graph.json`
-- **Master cross-project graph** — `C:\Users\lucas\dev\knowledge\` (Windows junction points) combines all projects into one 826-node graph
-- **Obsidian visualization** — all graphs exported as `.md` notes + `graph.canvas` into `SecondBrain\graphify-vault\`
+- **Per-project graphs** — every project folder gets its own `graphify-out/GRAPH_REPORT.md` and `graph.json`
+- **Master cross-project graph** — a `knowledge/` folder with junction/symlinks combines all projects into one graph
+- **Obsidian visualization** — all graphs exported as `.md` notes + `graph.canvas` into your Obsidian vault
 - **Auto-pull hook** — PreToolUse hook fires on every Glob/Grep, directing Claude to read the graph before scanning raw files
 
-### Paths (this machine)
+### Paths (replace with your own)
 
-| Purpose | Path |
-|---------|------|
-| Dev projects | `C:\Users\lucas\dev\` |
-| Master graph | `C:\Users\lucas\dev\knowledge\graphify-out\` |
-| Obsidian vault | `C:\Users\lucas\Documents\Obsidian\SecondBrain` |
-| Obsidian visualization | `C:\Users\lucas\Documents\Obsidian\SecondBrain\graphify-vault\` |
+| Purpose | Windows | Mac / Linux |
+|---------|---------|-------------|
+| Dev projects | `C:\Users\YOUR_USERNAME\dev\` | `~/dev/` |
+| Master graph | `YOUR_DEV_FOLDER\knowledge\graphify-out\` | `~/dev/knowledge/graphify-out/` |
+| Obsidian vault | `C:\Users\YOUR_USERNAME\Documents\Obsidian\YourVault` | `~/Documents/Obsidian/YourVault` |
+| Obsidian visualization | `YOUR_OBSIDIAN_VAULT\graphify-vault\` | `~/Documents/Obsidian/YourVault/graphify-vault/` |
 
 ### Install on a new machine
 
@@ -168,7 +208,7 @@ python -m graphify claude install   # adds CLAUDE.md section + PreToolUse hook
 ### Graph a project (first time)
 
 ```bash
-cd "C:\Users\lucas\dev\<project>"
+cd "YOUR_DEV_FOLDER/your-project"
 
 # Create .graphifyignore (copy from any existing project, or use this baseline):
 # node_modules/ dist/ build/ .next/ coverage/ .git/ *.log *.png *.jpg *.jpeg *.gif *.mp4 *.zip graphify-out/
@@ -176,14 +216,14 @@ cd "C:\Users\lucas\dev\<project>"
 PYTHONUTF8=1 python -m graphify . --no-viz
 ```
 
-Outputs: `graphify-out\GRAPH_REPORT.md` and `graphify-out\graph.json`.
+> **Windows note:** Always prefix `graphify query` with `PYTHONUTF8=1` — output contains Unicode characters (λ, →) that Windows' default cp1252 encoding can't handle. On Mac/Linux this is not needed, but it's harmless to include.
 
-> **Windows note:** Always prefix `graphify query` with `PYTHONUTF8=1` — output contains Unicode characters (λ, →) that Windows' default cp1252 encoding can't handle.
+Outputs: `graphify-out/GRAPH_REPORT.md` and `graphify-out/graph.json`.
 
 ### Update an existing graph
 
 ```bash
-cd "C:\Users\lucas\dev\<project>"
+cd "YOUR_DEV_FOLDER/your-project"
 PYTHONUTF8=1 python -m graphify . --update --no-viz   # incremental — only re-extracts changed files
 PYTHONUTF8=1 python -m graphify . --no-viz            # full rebuild
 ```
@@ -192,32 +232,49 @@ PYTHONUTF8=1 python -m graphify . --no-viz            # full rebuild
 
 ```bash
 PYTHONUTF8=1 python -m graphify query "your question" \
-  --graph "C:\Users\lucas\dev\<project>\graphify-out\graph.json" \
+  --graph "YOUR_DEV_FOLDER/your-project/graphify-out/graph.json" \
   --budget 1500
 
 # Cross-project question:
 PYTHONUTF8=1 python -m graphify query "your question" \
-  --graph "C:\Users\lucas\dev\knowledge\graphify-out\graph.json" \
+  --graph "YOUR_DEV_FOLDER/knowledge/graphify-out/graph.json" \
   --budget 2000
 ```
 
 ### Set up the master cross-project graph
 
-```bash
-mkdir "C:\Users\lucas\dev\knowledge"
+**Windows (PowerShell):**
+```powershell
+mkdir "C:\Users\YOUR_USERNAME\dev\knowledge"
 
-# Add junction points for each project (PowerShell):
-powershell -Command "New-Item -ItemType Junction -Path 'C:\Users\lucas\dev\knowledge\<project>' -Target 'C:\Users\lucas\dev\<project>'"
+# Add junction points for each project:
+New-Item -ItemType Junction -Path "C:\Users\YOUR_USERNAME\dev\knowledge\your-project" -Target "C:\Users\YOUR_USERNAME\dev\your-project"
+# Repeat for each project
 
 # Add .graphifyignore (same baseline as per-project, also exclude graphify-out/)
 # Then build:
-cd "C:\Users\lucas\dev\knowledge"
+cd "C:\Users\YOUR_USERNAME\dev\knowledge"
 PYTHONUTF8=1 python -m graphify . --no-viz
+```
+
+**Mac / Linux:**
+```bash
+mkdir ~/dev/knowledge
+
+# Add symlinks for each project:
+ln -s ~/dev/your-project ~/dev/knowledge/your-project
+# Repeat for each project
+
+# Add .graphifyignore, then build:
+cd ~/dev/knowledge
+python -m graphify . --no-viz
 ```
 
 ### Export to Obsidian (generate the visual cluster)
 
-Run this Python snippet to export all graphs as wikilinked notes into the SecondBrain vault:
+Run this Python snippet to export all graphs as wikilinked notes into your Obsidian vault.
+
+> **Customize before running:** Replace `YOUR_OBSIDIAN_VAULT`, `YOUR_DEV_FOLDER`, and `YOUR_PROJECTS` with your actual paths and project folder names.
 
 ```python
 import json
@@ -236,33 +293,38 @@ def export(graph_path, out_dir):
     to_canvas(G, dict(communities), str(Path(out_dir) / 'graph.canvas'))
     print(f'{Path(out_dir).name}: {n} notes')
 
-VAULT = r"C:\Users\lucas\Documents\Obsidian\SecondBrain\graphify-vault"
+# --- CUSTOMIZE THESE ---
+DEV_FOLDER = r"C:\Users\YOUR_USERNAME\dev"          # Windows: r"C:\Users\...", Mac/Linux: "/Users/.../dev"
+VAULT = r"C:\Users\YOUR_USERNAME\Documents\Obsidian\YourVault\graphify-vault"
 
-projects = [
-    "bvp-betting", "csci3172", "cv", "fantasy-draft-lottery-simulator",
-    "mlb-cfr", "nba-dynasty-rankings", "pride-stem-combined", "tpdl-lottery",
-    "valentine", "what-do-i-need-on-my-final", "yrfi"
+YOUR_PROJECTS = [
+    "your-project-1",
+    "your-project-2",
+    # add all your project folder names here
 ]
-for p in projects:
-    export(rf"C:\Users\lucas\dev\{p}\graphify-out\graph.json", rf"{VAULT}\{p}")
+# -----------------------
 
-export(r"C:\Users\lucas\dev\knowledge\graphify-out\graph.json", rf"{VAULT}\_master")
+for p in YOUR_PROJECTS:
+    export(rf"{DEV_FOLDER}\{p}\graphify-out\graph.json", rf"{VAULT}\{p}")
+
+# Export master cross-project graph
+export(rf"{DEV_FOLDER}\knowledge\graphify-out\graph.json", rf"{VAULT}\_master")
 ```
 
 **To see the cluster in Obsidian:**
-- Open the `SecondBrain` vault → navigate to `graphify-vault\`
+- Open your vault → navigate to `graphify-vault/`
 - Open any `graph.canvas` for the interactive community layout
 - Use Obsidian's **Graph View** (sidebar) to see the full wikilink cluster — filter by folder to zoom into one project
-- `graphify-vault\_master\graph.canvas` shows all projects combined
+- `graphify-vault/_master/graph.canvas` shows all projects combined
 
 ### Low-token rules for Claude
 
-1. Read `graphify-out\GRAPH_REPORT.md` before touching any project
+1. Read `graphify-out/GRAPH_REPORT.md` before touching any project
 2. Use `graphify query` for specific questions — never grep raw files first
 3. Never dump `graph.json` into context
 4. Open raw files only when graph summaries are insufficient
 5. Use `--update` not full rebuild unless the project changed significantly
-6. For cross-project questions, use the master graph at `knowledge\graphify-out\`
+6. For cross-project questions, use the master graph at `knowledge/graphify-out/`
 
 ### Workflow docs
 
@@ -283,6 +345,7 @@ source ~/.bashrc
 ```
 
 ## Notes
-- Per-project memory paths encode the full project path (e.g., `C--Users-lucas-dev`). Both machines should use the same username and project root for memory to auto-resolve.
+- Per-project memory paths encode the full project path (e.g., `C--Users-YOUR_USERNAME-dev-your-project`). Both machines should use the same username and project root for memory to auto-resolve across devices.
 - `~/.bashrc` and `~/.config/last30days/.env` are intentionally NOT committed — add API keys manually on each machine.
 - `plugins/known_marketplaces.json` is gitignored — it's auto-generated with machine-specific paths and regenerates automatically.
+- The CLAUDE.md graphify section and `.claude/settings.json` hook will contain your machine-specific paths after running `python -m graphify claude install`. Update these manually if your paths differ between machines.
