@@ -54,3 +54,12 @@ Pass file path + role to the Agent tool. Not skills — do not use the Skill too
 
 All 58 skills are listed in the system prompt. Run `/lloyd` for the full grouped reference.
 Before answering in any specialist domain (marketing, design, docs, dev tools), invoke the relevant skill — generic answers are worse than skill-guided ones.
+
+## graphify
+
+This project has a graphify knowledge graph at graphify-out/.
+
+Rules:
+- Before answering architecture or codebase questions, read graphify-out/GRAPH_REPORT.md for god nodes and community structure
+- If graphify-out/wiki/index.md exists, navigate it instead of reading raw files
+- After modifying code files in this session, run `python3 -c "from graphify.watch import _rebuild_code; from pathlib import Path; _rebuild_code(Path('.'))"` to keep the graph current
