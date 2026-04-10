@@ -137,6 +137,32 @@ Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
 
 ---
 
+## Graphify (knowledge graph for Obsidian vault)
+
+Graphify indexes the Obsidian vault into a persistent knowledge graph. Claude checks `GRAPH_REPORT.md` and runs focused `graphify query` calls before raw file searches — reducing token usage per session.
+
+- **Vault:** `C:\Users\lucas\Documents\Obsidian\SecondBrain`
+- **Graph output:** `graphify-out\GRAPH_REPORT.md` and `graphify-out\graph.json`
+- **Workflow doc:** `docs/graphify-obsidian-workflow.md`
+
+**Install on a new machine:**
+```bash
+pip install graphifyy
+python -m graphify install          # registers skill
+python -m graphify claude install   # wires CLAUDE.md + PreToolUse hook
+```
+
+**Rebuild after adding notes:**
+```bash
+cd "C:\Users\lucas\Documents\Obsidian\SecondBrain"
+python -m graphify . --update --no-viz   # incremental
+python -m graphify . --no-viz            # full rebuild
+```
+
+**Low-token rule:** read `GRAPH_REPORT.md` first, query the graph with `graphify query`, only open raw notes as a last resort.
+
+---
+
 ## Day-to-day sync
 
 ```bash
