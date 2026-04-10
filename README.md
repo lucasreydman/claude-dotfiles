@@ -161,13 +161,14 @@ Defined in `settings.json`, available in every project:
 - **playwright** — browser automation and UI testing via natural language
 - **github** — read repos, open issues, create PRs (requires `GITHUB_PERSONAL_ACCESS_TOKEN`)
 - **ruflo** — multi-agent orchestration: spawn Claude swarms, coordinate parallel tasks (requires `npm install -g ruflo@latest --omit=optional`)
+- **context-mode** — switches Claude's context handling mode per session
 
 ---
 
 ## Skills
 - **superpowers** — full workflow framework: TDD, git worktrees, planning, debugging, code review
 - **last30days** — multi-platform research engine (YouTube, HN, Polymarket, Brave web search; X/Twitter with XAI_API_KEY)
-- **60+ skills** across marketing/growth, design, documents, and dev tools — see `skills/` directory or the Skills Quick Reference in `CLAUDE.md`
+- **59 skills** across marketing/growth, design, documents, and dev tools — see `skills/` directory or run `/lloyd` for the full grouped reference
 
 ## Agents
 Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
@@ -207,25 +208,37 @@ python -m graphify claude install   # adds CLAUDE.md section + PreToolUse hook
 
 ### Graph a project (first time)
 
-```bash
-cd "YOUR_DEV_FOLDER/your-project"
+Graphify is built and updated via the `/graphify` Claude Code skill — **not** the raw CLI. The CLI does not support a path argument.
 
-# Create .graphifyignore (copy from any existing project, or use this baseline):
-# node_modules/ dist/ build/ .next/ coverage/ .git/ *.log *.png *.jpg *.jpeg *.gif *.mp4 *.zip graphify-out/
+1. Create a `.graphifyignore` in your project root (copy from any existing graphified project, or use this baseline):
+   ```
+   node_modules/
+   dist/
+   build/
+   .next/
+   coverage/
+   .git/
+   *.log
+   *.png *.jpg *.jpeg *.gif *.mp4 *.zip
+   graphify-out/
+   ```
 
-PYTHONUTF8=1 python -m graphify . --no-viz
-```
+2. In Claude Code, run:
+   ```
+   /graphify YOUR_DEV_FOLDER/your-project
+   ```
+   Or navigate to the project folder first and run `/graphify` with no arguments.
+
+Claude will run the full pipeline (detect → AST extraction → semantic extraction → build → cluster) and output `graphify-out/GRAPH_REPORT.md` and `graphify-out/graph.json`.
 
 > **Windows note:** Always prefix `graphify query` with `PYTHONUTF8=1` — output contains Unicode characters (λ, →) that Windows' default cp1252 encoding can't handle. On Mac/Linux this is not needed, but it's harmless to include.
 
-Outputs: `graphify-out/GRAPH_REPORT.md` and `graphify-out/graph.json`.
-
 ### Update an existing graph
 
-```bash
-cd "YOUR_DEV_FOLDER/your-project"
-PYTHONUTF8=1 python -m graphify . --update --no-viz   # incremental — only re-extracts changed files
-PYTHONUTF8=1 python -m graphify . --no-viz            # full rebuild
+In Claude Code:
+```
+/graphify YOUR_DEV_FOLDER/your-project --update    # incremental — only re-extracts changed files
+/graphify YOUR_DEV_FOLDER/your-project             # full rebuild
 ```
 
 ### Query the graph (low-token)
@@ -252,9 +265,7 @@ New-Item -ItemType Junction -Path "C:\Users\YOUR_USERNAME\dev\knowledge\your-pro
 # Repeat for each project
 
 # Add .graphifyignore (same baseline as per-project, also exclude graphify-out/)
-# Then build:
-cd "C:\Users\YOUR_USERNAME\dev\knowledge"
-PYTHONUTF8=1 python -m graphify . --no-viz
+# Then build via Claude Code skill (not CLI):
 ```
 
 **Mac / Linux:**
@@ -265,10 +276,10 @@ mkdir ~/dev/knowledge
 ln -s ~/dev/your-project ~/dev/knowledge/your-project
 # Repeat for each project
 
-# Add .graphifyignore, then build:
-cd ~/dev/knowledge
-python -m graphify . --no-viz
+# Add .graphifyignore
 ```
+
+Then in Claude Code, run `/graphify YOUR_DEV_FOLDER/knowledge` to build the master graph.
 
 ### Export to Obsidian (generate the visual cluster)
 

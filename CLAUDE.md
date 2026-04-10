@@ -52,7 +52,7 @@ Pass file path + role to the Agent tool. Not skills — do not use the Skill too
 
 ## Skills
 
-All 58 skills are listed in the system prompt. Run `/lloyd` for the full grouped reference.
+All 59 skills are listed in the system prompt. Run `/lloyd` for the full grouped reference.
 Before answering in any specialist domain (marketing, design, docs, dev tools), invoke the relevant skill — generic answers are worse than skill-guided ones.
 
 ## graphify — Knowledge Graph
