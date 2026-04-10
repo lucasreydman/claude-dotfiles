@@ -137,29 +137,137 @@ Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
 
 ---
 
-## Graphify (knowledge graph for Obsidian vault)
+## Graphify — Knowledge Graph + Obsidian Visualization
 
-Graphify indexes the Obsidian vault into a persistent knowledge graph. Claude checks `GRAPH_REPORT.md` and runs focused `graphify query` calls before raw file searches — reducing token usage per session.
+Graphify turns every project and the Obsidian vault into a persistent knowledge graph. Claude reads `GRAPH_REPORT.md` and runs focused `graphify query` calls before raw file searches — dramatically reducing token usage per session. The graphs are also exported as wikilinked Obsidian notes, visible as a node cluster in Obsidian's Graph View and Canvas.
 
-- **Vault:** `C:\Users\lucas\Documents\Obsidian\SecondBrain`
-- **Graph output:** `graphify-out\GRAPH_REPORT.md` and `graphify-out\graph.json`
-- **Workflow doc:** `docs/graphify-obsidian-workflow.md`
+### What it does
 
-**Install on a new machine:**
+- **Per-project graphs** — every folder in `C:\Users\lucas\dev` has its own `graphify-out\GRAPH_REPORT.md` and `graph.json`
+- **Master cross-project graph** — `C:\Users\lucas\dev\knowledge\` (Windows junction points) combines all projects into one 826-node graph
+- **Obsidian visualization** — all graphs exported as `.md` notes + `graph.canvas` into `SecondBrain\graphify-vault\`
+- **Auto-pull hook** — PreToolUse hook fires on every Glob/Grep, directing Claude to read the graph before scanning raw files
+
+### Paths (this machine)
+
+| Purpose | Path |
+|---------|------|
+| Dev projects | `C:\Users\lucas\dev\` |
+| Master graph | `C:\Users\lucas\dev\knowledge\graphify-out\` |
+| Obsidian vault | `C:\Users\lucas\Documents\Obsidian\SecondBrain` |
+| Obsidian visualization | `C:\Users\lucas\Documents\Obsidian\SecondBrain\graphify-vault\` |
+
+### Install on a new machine
+
 ```bash
 pip install graphifyy
-python -m graphify install          # registers skill
-python -m graphify claude install   # wires CLAUDE.md + PreToolUse hook
+python -m graphify install          # registers /graphify skill in ~/.claude
+python -m graphify claude install   # adds CLAUDE.md section + PreToolUse hook
 ```
 
-**Rebuild after adding notes:**
+### Graph a project (first time)
+
 ```bash
-cd "C:\Users\lucas\Documents\Obsidian\SecondBrain"
-python -m graphify . --update --no-viz   # incremental
-python -m graphify . --no-viz            # full rebuild
+cd "C:\Users\lucas\dev\<project>"
+
+# Create .graphifyignore (copy from any existing project, or use this baseline):
+# node_modules/ dist/ build/ .next/ coverage/ .git/ *.log *.png *.jpg *.jpeg *.gif *.mp4 *.zip graphify-out/
+
+PYTHONUTF8=1 python -m graphify . --no-viz
 ```
 
-**Low-token rule:** read `GRAPH_REPORT.md` first, query the graph with `graphify query`, only open raw notes as a last resort.
+Outputs: `graphify-out\GRAPH_REPORT.md` and `graphify-out\graph.json`.
+
+> **Windows note:** Always prefix `graphify query` with `PYTHONUTF8=1` — output contains Unicode characters (λ, →) that Windows' default cp1252 encoding can't handle.
+
+### Update an existing graph
+
+```bash
+cd "C:\Users\lucas\dev\<project>"
+PYTHONUTF8=1 python -m graphify . --update --no-viz   # incremental — only re-extracts changed files
+PYTHONUTF8=1 python -m graphify . --no-viz            # full rebuild
+```
+
+### Query the graph (low-token)
+
+```bash
+PYTHONUTF8=1 python -m graphify query "your question" \
+  --graph "C:\Users\lucas\dev\<project>\graphify-out\graph.json" \
+  --budget 1500
+
+# Cross-project question:
+PYTHONUTF8=1 python -m graphify query "your question" \
+  --graph "C:\Users\lucas\dev\knowledge\graphify-out\graph.json" \
+  --budget 2000
+```
+
+### Set up the master cross-project graph
+
+```bash
+mkdir "C:\Users\lucas\dev\knowledge"
+
+# Add junction points for each project (PowerShell):
+powershell -Command "New-Item -ItemType Junction -Path 'C:\Users\lucas\dev\knowledge\<project>' -Target 'C:\Users\lucas\dev\<project>'"
+
+# Add .graphifyignore (same baseline as per-project, also exclude graphify-out/)
+# Then build:
+cd "C:\Users\lucas\dev\knowledge"
+PYTHONUTF8=1 python -m graphify . --no-viz
+```
+
+### Export to Obsidian (generate the visual cluster)
+
+Run this Python snippet to export all graphs as wikilinked notes into the SecondBrain vault:
+
+```python
+import json
+from collections import defaultdict
+from networkx.readwrite import json_graph
+from graphify.export import to_obsidian, to_canvas
+from pathlib import Path
+
+def export(graph_path, out_dir):
+    data = json.loads(Path(graph_path).read_text(encoding='utf-8'))
+    G = json_graph.node_link_graph(data, edges='links')
+    communities = defaultdict(list)
+    for nid, attrs in G.nodes(data=True):
+        communities[int(attrs.get('community', 0))].append(nid)
+    n = to_obsidian(G, dict(communities), str(out_dir))
+    to_canvas(G, dict(communities), str(Path(out_dir) / 'graph.canvas'))
+    print(f'{Path(out_dir).name}: {n} notes')
+
+VAULT = r"C:\Users\lucas\Documents\Obsidian\SecondBrain\graphify-vault"
+
+projects = [
+    "bvp-betting", "csci3172", "cv", "fantasy-draft-lottery-simulator",
+    "mlb-cfr", "nba-dynasty-rankings", "pride-stem-combined", "tpdl-lottery",
+    "valentine", "what-do-i-need-on-my-final", "yrfi"
+]
+for p in projects:
+    export(rf"C:\Users\lucas\dev\{p}\graphify-out\graph.json", rf"{VAULT}\{p}")
+
+export(r"C:\Users\lucas\dev\knowledge\graphify-out\graph.json", rf"{VAULT}\_master")
+```
+
+**To see the cluster in Obsidian:**
+- Open the `SecondBrain` vault → navigate to `graphify-vault\`
+- Open any `graph.canvas` for the interactive community layout
+- Use Obsidian's **Graph View** (sidebar) to see the full wikilink cluster — filter by folder to zoom into one project
+- `graphify-vault\_master\graph.canvas` shows all projects combined
+
+### Low-token rules for Claude
+
+1. Read `graphify-out\GRAPH_REPORT.md` before touching any project
+2. Use `graphify query` for specific questions — never grep raw files first
+3. Never dump `graph.json` into context
+4. Open raw files only when graph summaries are insufficient
+5. Use `--update` not full rebuild unless the project changed significantly
+6. For cross-project questions, use the master graph at `knowledge\graphify-out\`
+
+### Workflow docs
+
+- `docs/graphify-obsidian-workflow.md` — Obsidian vault setup
+- `docs/dev-graphify-workflow.md` — dev projects, master graph, adding new projects
 
 ---
 
