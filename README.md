@@ -136,7 +136,20 @@ XAI_API_KEY=""
 source ~/.bashrc   # or source ~/.zshrc on Mac
 ```
 
-### 6. Verify MCP servers
+### 6. Configure global gitignore
+
+Keeps graphify output and other tool artifacts out of every repo without touching individual `.gitignore` files:
+
+```bash
+cat > ~/.gitignore_global << 'EOF'
+# Graphify knowledge graph output
+graphify-out/
+.graphifyignore
+EOF
+git config --global core.excludesFile ~/.gitignore_global
+```
+
+### 7. Verify MCP servers
 Run `/doctor` in Claude Code to confirm they're connected.
 
 ---
