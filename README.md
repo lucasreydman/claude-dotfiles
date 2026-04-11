@@ -24,6 +24,7 @@ That's the model. Not a yes-machine. An operator who handles everything, gets be
 ## What's synced
 - `CLAUDE.md` — global instructions, workflow rules, and skills quick-reference
 - `settings.json` — permissions, MCP servers, plugins, update channel
+- `statusline-command.sh` — custom status bar script (folder, git branch, model, context %)
 - `skills/` — 60+ skills: superpowers framework, last30days, marketing/growth, design, dev tools
 - `agents/` — pre-built agent role definitions (code-reader, verifier, searcher)
 - `plugins/installed_plugins.json`
@@ -175,6 +176,18 @@ Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
 - **code-reader** — read-only codebase exploration
 - **verifier** — runs tests, builds, linting after implementation
 - **searcher** — web research and documentation lookup
+
+## Status Line
+
+A custom status bar is configured in `settings.json` via `statusline-command.sh`. It shows:
+
+```
+.claude | (main) | claude-sonnet-4-6 | [####------] 40%
+```
+
+Fields (pipe-separated): **folder name** | **git branch** | **model** | **context window usage bar**
+
+The bar is 10 chars wide — each `#` represents 10% of context used. Missing fields are omitted automatically.
 
 ---
 

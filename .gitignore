@@ -47,6 +47,9 @@ todos/
 projects/
 *.jsonl
 
+# Machine-specific local settings (auto-generated per machine)
+.claude/settings.local.json
+
 # Plugin local state
 plugins/blocklist.json
 plugins/install-counts-cache.json
