@@ -1,6 +1,7 @@
 ---
 name: Searcher
 description: Use this agent for any web research, documentation lookups, finding how something works, checking if a library exists, or fetching content from a URL. Do NOT use for codebase searches — use code-reader for that.
+model: sonnet
 tools: WebSearch, WebFetch
 ---
 

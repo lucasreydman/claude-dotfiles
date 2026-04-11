@@ -30,11 +30,30 @@
 
 ### 7. Pre-built Agent Roles
 When dispatching subagents, use these from `agents/`:
-- **agents/code-reader.md** — read-only exploration, before implementation
-- **agents/verifier.md** — runs tests/builds/linting, after implementation
-- **agents/searcher.md** — web research and docs lookup
+- **agents/code-reader.md** — read-only exploration, before implementation *(Haiku)*
+- **agents/verifier.md** — runs tests/builds/linting, after implementation *(Haiku)*
+- **agents/searcher.md** — web research and docs lookup *(Sonnet)*
 
 Pass file path + role to the Agent tool. Not skills — do not use the Skill tool.
+
+## Model Routing
+
+Always match model to task complexity. Never use more than needed — Opus quota is finite, Haiku is fast and cheap.
+
+| Tier | Model | Task types |
+|------|-------|------------|
+| Heavy | **Opus** | Architecture decisions, complex spec review, hard multi-step debugging, high-stakes reasoning where quality is critical |
+| Standard | **Sonnet** | Implementation, feature work, debugging, research synthesis — main session default |
+| Light | **Haiku** | File reads, test runs, linting, simple lookups, mechanical verification, anything pass/fail |
+
+### Rules for ad-hoc subagent dispatch (Agent tool)
+
+- Mechanical task (read files, run commands, check output, grep) → `model: "haiku"`
+- Research, implementation, complex analysis → `model: "sonnet"`
+- Architecture review, spec validation, hard reasoning → `model: "opus"`
+- Named agents (`code-reader`, `verifier`, `searcher`) have models locked in frontmatter — no `model:` override needed when dispatching them
+- **Never use Opus for tasks Sonnet handles well** — reserve it for decisions where reasoning depth genuinely changes the outcome
+- **Never use Haiku for anything the user sees directly** — responses, plans, explanations stay on Sonnet+
 
 ## Task Management
 

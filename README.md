@@ -173,10 +173,28 @@ Defined in `settings.json`, available in every project:
 - **59 skills** across marketing/growth, design, documents, and dev tools — see `skills/` directory or run `/lloyd` for the full grouped reference
 
 ## Agents
-Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
-- **code-reader** — read-only codebase exploration
-- **verifier** — runs tests, builds, linting after implementation
-- **searcher** — web research and documentation lookup
+
+Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md with explicit model tiers:
+
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `code-reader` | **Haiku** | Read-only file exploration — fast and cheap, no judgment needed |
+| `verifier` | **Haiku** | Test runs, linting, build checks — mechanical pass/fail |
+| `searcher` | **Sonnet** | Web research and docs — needs synthesis and judgment |
+
+### Model Routing
+
+Every subagent dispatched via the Agent tool uses the right model for the task:
+
+| Tier | Model | When |
+|------|-------|------|
+| Heavy | **Opus** | Architecture decisions, complex spec review, hard debugging, high-stakes reasoning |
+| Standard | **Sonnet** | Implementation, features, research synthesis — main session default |
+| Light | **Haiku** | File reads, test runs, linting, grep, mechanical verification |
+
+The named agents have models locked in frontmatter — no manual override needed. For ad-hoc subagents, CLAUDE.md has explicit rules: mechanical tasks get Haiku, implementation gets Sonnet, complex reasoning gets Opus.
+
+**Why it matters:** Haiku is ~20x cheaper and faster than Opus. Routing file reads and test runs to Haiku means those tasks finish instantly and burn almost no quota — saving Opus for decisions where reasoning depth actually changes the outcome.
 
 ## Status Line
 

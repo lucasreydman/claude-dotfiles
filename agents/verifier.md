@@ -1,6 +1,7 @@
 ---
 name: Verifier
 description: Use this agent to run tests, execute build commands, run linters, check output, or validate that code changes work correctly. Use after making changes to confirm correctness before marking a task done.
+model: haiku
 tools: Bash, Read
 ---
 
