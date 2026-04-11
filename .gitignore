@@ -50,6 +50,9 @@ projects/
 # Machine-specific local settings (auto-generated per machine)
 .claude/settings.local.json
 
+# Status line runtime state (auto-generated, persists across terminals)
+statusline-state.json
+
 # Plugin local state
 plugins/blocklist.json
 plugins/install-counts-cache.json

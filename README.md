@@ -23,8 +23,9 @@ That's the model. Not a yes-machine. An operator who handles everything, gets be
 
 ## What's synced
 - `CLAUDE.md` — global instructions, workflow rules, and skills quick-reference
-- `settings.json` — permissions, MCP servers, plugins, update channel
-- `statusline-command.sh` — custom status bar script (folder, git branch, model, context %)
+- `settings.json` — permissions, MCP servers, plugins, hooks, update channel
+- `statusline-command.sh` — L.L.O.Y.D. branded status bar (folder, branch, model, context bar, active tool, call count, elapsed time)
+- `hooks/` — PreToolUse/PostToolUse scripts that power status line state tracking
 - `skills/` — 60+ skills: superpowers framework, last30days, marketing/growth, design, dev tools
 - `agents/` — pre-built agent role definitions (code-reader, verifier, searcher)
 - `plugins/installed_plugins.json`
@@ -179,15 +180,25 @@ Pre-built subagent role definitions in `agents/`, wired into CLAUDE.md:
 
 ## Status Line
 
-A custom status bar is configured in `settings.json` via `statusline-command.sh`. It shows:
+L.L.O.Y.D.'s branded status bar, configured via `settings.json` + `statusline-command.sh` + hooks:
 
 ```
-.claude | (main) | claude-sonnet-4-6 | [####------] 40%
+◈ L·L·O·Y·D  ⟩  .claude (main)  ⟩  sonnet-4-6  ⟩  ████████░░ 78%  ⟩  ◆ Bash  ⟩  12 calls  ⟩  34m
 ```
 
-Fields (pipe-separated): **folder name** | **git branch** | **model** | **context window usage bar**
+| Field | Color | Source |
+|-------|-------|--------|
+| `◈ L·L·O·Y·D` | bold magenta | static brand |
+| `folder (branch)` | bold blue / dim | `cwd` + git |
+| `model` | dim cyan | status line JSON |
+| context bar `████░░` + `%` | green → yellow → red at 60%/85% | status line JSON |
+| `◆ Bash` active tool | bold cyan | hook state file |
+| `12 calls` | white | hook state file |
+| `34m` elapsed | white | hook state file |
 
-The bar is 10 chars wide — each `#` represents 10% of context used. Missing fields are omitted automatically.
+**Tool glyphs:** `◆` Bash · `⊞` Read · `⌕` Grep/Glob · `⊕` Write · `⊗` Edit · `↗` Agent · `⊛` Web · `⊙` other
+
+**State file** (`~/.claude/statusline-state.json`, gitignored): written by `hooks/pre-tool-use.sh` on every tool call, cleared by `hooks/post-tool-use.sh` after. Persists across terminal sessions; auto-resets after 5 hours.
 
 ---
 
